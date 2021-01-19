@@ -4,7 +4,7 @@
 
 # Contents
 
-This repository contains the function "nep2rat" which approximates the nonlinear functions, and all the experiments proposed in the referenced paper. Those experiments **require** the installation of the [NLEVP library]{https://github.com/ftisseur/nlevp}.
+This repository contains the function "nep2rat" which approximates the nonlinear functions, and all the experiments proposed in the referenced paper. Those experiments **require** the installation of the [NLEVP library](https://github.com/ftisseur/nlevp).
 
 # Basic usage
 
@@ -21,4 +21,4 @@ This structure mirrors the output of the NLEVP library. The default behaviour ch
 allows the user to specify many optional parameters, such as the precision of the approximation and the algorithms utilised. The output info is returns additional information, while opts is a structure with all the. An in-depth guide is contained in the help of nep2rat.
 
 # References
-Güttel, S., Negri Porzio, G.M. and Tisseur, F., 2020. [Robust rational approximations of nonlinear eigenvalue problems]{http://eprints.maths.manchester.ac.uk/2796/1/gnt20.pdf}. MIMS Eprints 2020.24
+Güttel, S., Negri Porzio, G.M. and Tisseur, F., 2020. [Robust rational approximations of nonlinear eigenvalue problems](http://eprints.maths.manchester.ac.uk/2796/1/gnt20.pdf). MIMS Eprints 2020.24
