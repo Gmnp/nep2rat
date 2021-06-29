@@ -3,11 +3,11 @@
 clear opts nepAcc nepDegree nepSteps
 
 dmax = 60; %max degree
-tol = 1e-7; %tolerance for phases 1 & 2
+tol = 1e-13; %tolerance for phases 1 & 2
 N = 10; %default problem size
 nc = 300; %number of sample points for Sigma
 nc2 = 50; %number of sample points on the countour of Sigma
-tolnormest = 1e-4;
+tolnormest = tol/10;
 
 % Z is a set of random points in the target set Sigma
 % Z2 is a uniform discretisation of the contour of Sigma
@@ -152,8 +152,8 @@ for kk = 1:nb_test_pbs
             [coeffs,fun,F] = nlevp(nep{kk});
 
       case 'sandwich_beam'
-            gam(kk) = 0;
-            rad(kk) = 2;
+            gam(kk) = 7000;
+            rad(kk) = 6900;
             [coeffs,fun,F] = nlevp(nep{kk});
 
       case 'schrodinger_abc'
@@ -225,19 +225,19 @@ for kk = 1:nb_test_pbs
     %Now construct the different rational approx.
     %Use the Frobenius norm for (much) faster results
     %------------------------------------------
-    alg = 1;
+    alg = 0;
     
-%     %% Set valued AAA original
-%     disp('Set valued AAA original')
-%     alg = alg+1;
-%     algo_used{alg} = 'set valued AAA';
-%     [r, pol, res, zer, z, ff, w, errvec] = aaa_svOrig(fun, ZZ , 'tol', opts.tol2, 'mmax', opts.dmax+1);   
-%     Rm = @(z) iEvaluateRational(r, coeffs, z, issparse(coeffs{1}));
-%     nepDegree(kk,alg) = length(z)-1;
-%     nepSteps(kk,alg) = length(z)-1;
-%     %[nepAcc(kk,alg),normFZ] = computeApproxErr(F, Rm, ZZ, 'fro',Rm);
-%     [nepAcc(kk,alg),normFZ] = computeApproxErr(F, Rm, ZZ, 2, Rm, [], tolnormest);
-%     fprintf('||F||_S = %7.2e  (Sigma 2-norm)\n',normFZ);
+    %% Set valued AAA original
+    disp('Set valued AAA original')
+    alg = alg+1;
+    algo_used{alg} = 'set valued AAA';
+    [r, pol, res, zer, z, ff, w, errvec] = aaa_svOrig(fun, ZZ , 'tol', opts.tol2, 'mmax', opts.dmax+1);   
+    Rm = @(z) iEvaluateRational(r, coeffs, z, issparse(coeffs{1}));
+    nepDegree(kk,alg) = length(z)-1;
+    nepSteps(kk,alg) = length(z)-1;
+    %[nepAcc(kk,alg),normFZ] = computeApproxErr(F, Rm, ZZ, 'fro',Rm);
+    [nepAcc(kk,alg),normFZ] = computeApproxErr(F, Rm, ZZ, 2, Rm, [], tolnormest);
+    fprintf('||F||_S = %7.2e  (Sigma 2-norm)\n',normFZ);
   
     %% Weighted AAA
     disp('Weighted AAA')

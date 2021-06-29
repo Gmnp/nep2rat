@@ -99,6 +99,7 @@ info.errvec2 = errvecMat(:);
 phase = [ones(length(info.errvec),1); 2*ones(length(errvecMat),1)];
 info.phase = phase;
 info.degree = length(z)-1;
+info.nF = normFSigma;
 info.msg = '';
 % End of setting the output "info"
 
