@@ -1,9 +1,10 @@
+
 %This M-file tests different rational approximations of REPs and NEPs from NLEVP.
 
 clear opts nepAcc nepDegree nepSteps
 
 dmax = 60; %max degree
-tol = 1e-13; %tolerance for phases 1 & 2
+tol = 1e-7; %tolerance for phases 1 & 2
 N = 10; %default problem size
 nc = 300; %number of sample points for Sigma
 nc2 = 50; %number of sample points on the countour of Sigma
@@ -21,6 +22,7 @@ allProblems = nlevp('query','problems');
 nep = setdiff(allProblems, pep);
 nep = setdiff(nep, 'pillbox_cavity'); %Remove pillbox_cavity: too large
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+nep = setdiff(nep, 'laser'); % Remove Laser because it was not in the original sample of problems
 nep = setdiff(nep, 'gun'); % Test gun on its own
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 if tol<1e-7 %remove the REPs - they are well approximated
@@ -196,15 +198,17 @@ for kk = 1:nb_test_pbs
     %Generate set of points Z, Z2 and if needed ZZ = Z U Z2
     rng(0); %Fix the random number generator
     Z(kk,:) = rand(1,nc).*exp(rand(1,nc)*2*pi*1i);
+    Z(kk, :) = disksample(nc, gam(kk), rad(kk));
     if half_disc(kk)
        negPoints = imag(Z(kk,:)) < 0;
        Z(kk,negPoints) = Z(kk, negPoints)';
+       Z(kk, :) = halfdisksample(nc, gam(kk), rad(kk));
        Z2 = gam(kk) + rad(kk)*exp(1i*linspace(0,pi,nc2)); % half circle
        Z2 = [Z2(2:end-1), linspace(-rad(kk), rad(kk), nc2)+gam(kk)];
     else
        Z2 = gam(kk) + rad(kk)*exp(1i*linspace(0,2*pi,2*nc2));
     end
-    Z(kk,:) = Z(kk,:)*rad(kk)  + gam(kk); % shift to the correct points
+  %  Z(kk,:) = Z(kk,:)*rad(kk)  + gam(kk); % shift to the correct points
     if useZZ  %merge Z and Z2
        ZZ = [Z(kk,:) Z2];
        %now look for repetitions and remove. We can't simply use "union"
