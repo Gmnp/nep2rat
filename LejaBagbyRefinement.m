@@ -120,7 +120,7 @@ for j = 1:dmax
 
     if ~startSearch
             errLB(j) = norm(D{j+1},'fro')/maxF;
-            kappa = 3;
+            kappa = 4;
         if errLB(j) < tol1/kappa
             if exactSearch
                 if verbose >= 2

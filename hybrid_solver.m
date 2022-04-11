@@ -349,7 +349,7 @@ for j = d+1:dmax
     nFF = norm(Fsigma, 'fro')/sqrt(n);
     maxF = max(maxF, nFF);
     errLB(j-d) = norm(D{j-d}, 'fro')/maxF;
-    kappa = 3;
+    kappa = 4;
     if errLB(j-d) < tol2/kappa
         % we don't include this last point: in this way, if the first
         % divided difference matrix already satisfy the threshold, we don't
