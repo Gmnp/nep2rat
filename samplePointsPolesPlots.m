@@ -5,7 +5,7 @@ tol = 1e-10; %tolerance for phases 1 & 2
 N = 10; %default problem size
 %nc = 1000; %number of sample points for Sigma
 nc = 300; %number of sample points for Sigma
-nc2 = 100;
+nc2 = 50;
 useZZ = 1;
 useZ2 = 1;
 nb_test_pbs = length(nepPlot);
@@ -170,17 +170,19 @@ for kk = 1:nb_test_pbs
     fprintf('*******************************\n');
 
     %Generate set of points Z, Z2 and if needed ZZ = Z U Z2
-    rng(0); %Fix the random number generator
-    Z(kk,:) = rand(1,nc).*exp(rand(1,nc)*2*pi*1i);
+    rng(13); %Fix the random number generator
+    %Z(kk,:) = rand(1,nc).*exp(rand(1,nc)*2*pi*1i);
+    Z(kk, :) = disksample(nc, gam(kk), rad(kk));
     if half_disc(kk)
        negPoints = imag(Z(kk,:)) < 0;
-       Z(kk,negPoints) = Z(kk, negPoints)';
+     %  Z(kk,negPoints) = Z(kk, negPoints)';
+       Z(kk, :) = halfdisksample(nc, gam(kk), rad(kk));
        Z2 = gam(kk) + rad(kk)*exp(1i*linspace(0,pi,nc2)); % half circle
        Z2 = [Z2(2:end-1), linspace(-rad(kk), rad(kk), nc2)+gam(kk)];
     else
        Z2 = gam(kk) + rad(kk)*exp(1i*linspace(0,2*pi,2*nc2));
     end
-    Z(kk,:) = Z(kk,:)*rad(kk)  + gam(kk); % shift to the correct points
+    %Z(kk,:) = Z(kk,:)*rad(kk)  + gam(kk); % shift to the correct points
     if useZZ  %merge Z and Z2
        ZZ = [Z(kk,:) Z2];
        %now look for repetitions and remove
